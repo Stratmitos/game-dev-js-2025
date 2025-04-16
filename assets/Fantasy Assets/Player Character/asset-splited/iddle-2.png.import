@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di8qk8bnhfl25"
-path="res://.godot/imported/12.png-f1e3d56e67a211375980bac306e7183f.ctex"
+uid="uid://bh73vty2m481x"
+path="res://.godot/imported/iddle-2.png-dd414c85f4b5d2514f5b28bf13d4af6f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Fantasy Assets/Player Character/asset-splited/12.png"
-dest_files=["res://.godot/imported/12.png-f1e3d56e67a211375980bac306e7183f.ctex"]
+source_file="res://assets/Fantasy Assets/Player Character/asset-splited/iddle-2.png"
+dest_files=["res://.godot/imported/iddle-2.png-dd414c85f4b5d2514f5b28bf13d4af6f.ctex"]
 
 [params]
 
