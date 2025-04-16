@@ -1,0 +1,73 @@
+Cara bermain:
+Kamu adalah seorang komandan perang yang mengatur segala sesuatu yang dibutuhkan untuk peperangan, seperti:
+- program recruitment pasukan.
+- program latihan pasukan.
+- program kesejahteraan pasukan.
+- perlengkapan pasukan.
+
+Pasukan:
+Pasukan memiliki 3 attribute point, yaitu:
+buff / debuff
+- Strength:
+	1 Strength = -0.125% melarikan diri, karena merasa dirinya cukup kuat untuk berperang
+	1 Strength = -0.125% keluar dari barisan perang, karena mengandalkan kekuatan dan jumlah, bukan hanya kecepatan.
+	1 Strength = +0.25% melukai teman sendiri, karena merasa dirinya paling kuat pada saat berperang.
+
+- Agility:
+	1 Agility = -0.125% melarikan diri, karena merasa dirinya lincah dan dapat diandalkan.
+	1 Agility = -0.125% melukai teman sendiri, karena merasa dirinya mudah lengah sehingga membutuhkan teman.
+	1 Agility = +0.25% keluar dari barisan perang, karena merasa mampu mengatasi musuh tanpa formasi dan kekuatan.
+
+- Intelligence:
+	1 Int = -0.125% melukai teman sendiri, karena melukai teman sendiri itu perbuatan buruk.
+	1 Int = -0.125% keluar dari barisan perang, karena paham mengikuti rencana adalah sesuatu hal yang penting.
+	1 Int = +0.25% melarikan diri, karena merasa dirinya lemah pada saat berperang.
+
+base buff:
+- Strength:
+	1 Strength = 0.7 Atk
+	1 Strength = 0.5 Def
+	1 Strength = 0.20% block damage received
+- Agility:
+	1 Agility = 0.75 Movement speed
+	1 Agility = 0.25 Attack speed
+	1 Agility = 0.20% Evasion
+- Intelligence:
+	1 INT = 0.35% critical rate
+	1 INT = 0.35% critical damage
+	1 INT = 0.5% block damage received
+	1 INT = 0.5% Evasion
+
+Program Recruitment pasukan:
+Terdapat 3 sumber pasukan:
+- Worker (Price: 10 + Day + 100% - Kepercayaan publik)
+	- STR +3 / +2 / +1 + Day
+	- INT +1 / -1 / -2 + Day
+	- AGL +2 / +1 / -1 + Day
+- Academy (Price: 7 + Day)
+	- STR +1 / -1 / -2 + Day
+	- INT +3 / +2 / +1 + Day
+	- AGL +2 / +1 / -1 + Day
+- NEET (Price: 12 + Day + 100% - Kepercayaan publik)
+	- STR Random(-3 ~ 3) + Day
+	- INT Random(-3 ~ 3) + Day
+	- AGL Random(-3 ~ 3) + Day
+
+Program Training Pasukan:
+- Focus STR / AGL / INT (Price 20 + Day + 100% - Kepercayaan publik) += 10 ~ 50
+- Universal STR & AGL & INT (Price 20 + Day + 100% - Kepercayaan publik) += 10 ~ 25
+
+Event Economy:
+- Kepercayaan Publik 100% = Tidak ada permintaan harga tambahan saat training dan recruitment.
+- Penerimaan pajak berdasarkan harga dasar pajak x persentase kepercayaan publik.
+- Setiap hari akan ada debuff / buff kepercayaan publik + / - 1 ~ 10% + Day
+
+Event War:
+- Setiap 3 hari sekali, akan melakukan peperangan.
+	- Setiap kemenangan akan meningkatkan kepercayaan publik 35% - Day.
+	- Setiap kekalahan akan menurunkan kepercayaan publik 10% + Day.
+- Setiap 7 hari sekali, akan melakukan peperangan sulit.
+	- Setiap kemenangan sulit akan meningkatkan kepercayaan publik 50% - Day.
+	- Setiap kekalahan akan menurunkan kepercayaan publik 20% + Day.
+
+Max 28 Day = Tamat
