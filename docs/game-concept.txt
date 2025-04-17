@@ -25,16 +25,16 @@ buff / debuff
 
 base buff:
 - Strength:
-	1 Strength = 0.7 Atk
+	1 Strength = 0.7 Atk [DONE - IMPLEMENTED]
 	1 Strength = 0.5 Def
 	1 Strength = 0.20% knock back chance
 - Agility:
-	1 Agility = 0.75 Movement speed
-	1 Agility = 0.25 Attack speed
+	1 Agility = 0.0075 Movement speed [DONE - IMPLEMENTED]
+	1 Agility = 0.001 Attack speed [DONE - IMPLEMENTED]
 	1 Agility = 0.20% Evasion
 - Intelligence:
 	1 INT = 0.35% critical rate
-	1 INT = 0.35% critical damage
+	1 INT = 0.25% critical damage
 	1 INT = 0.5% knock back chance
 	1 INT = 0.5% Evasion
 
