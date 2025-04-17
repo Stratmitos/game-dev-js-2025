@@ -27,7 +27,7 @@ base buff:
 - Strength:
 	1 Strength = 0.7 Atk
 	1 Strength = 0.5 Def
-	1 Strength = 0.20% block damage received
+	1 Strength = 0.20% knock back chance
 - Agility:
 	1 Agility = 0.75 Movement speed
 	1 Agility = 0.25 Attack speed
@@ -35,7 +35,7 @@ base buff:
 - Intelligence:
 	1 INT = 0.35% critical rate
 	1 INT = 0.35% critical damage
-	1 INT = 0.5% block damage received
+	1 INT = 0.5% knock back chance
 	1 INT = 0.5% Evasion
 
 Program Recruitment pasukan:
