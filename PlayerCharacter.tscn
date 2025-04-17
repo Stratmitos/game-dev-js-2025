@@ -1,22 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://cqiqv4j7vbfe5"]
+[gd_scene load_steps=22 format=3 uid="uid://cqiqv4j7vbfe5"]
 
 [ext_resource type="Script" path="res://PlayerCharacter.gd" id="1_aytp6"]
 [ext_resource type="Texture2D" uid="uid://bc3degaot5pof" path="res://assets/player-animation-sheet.png" id="2_6n7gl"]
+[ext_resource type="Script" path="res://services/Character/DamageIndicator.gd" id="2_w1p5b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2aied"]
+size = Vector2(32, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bvv0v"]
+radius = 0.89443
 
 [sub_resource type="Animation" id="Animation_caavq"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0]
-}
 
 [sub_resource type="Animation" id="Animation_4y2fk"]
 resource_name = "atk-fe"
@@ -32,6 +27,42 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [12, 14]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ApplyAttack:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ApplyAttack:monitorable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ApplyAttack:collision_layer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
 }
 
 [sub_resource type="Animation" id="Animation_2b5i4"]
@@ -104,7 +135,7 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_lpvdb"]
 states/End/position = Vector2(650, 118)
-states/Start/position = Vector2(321, 118)
+states/Start/position = Vector2(322, 118)
 states/atk-fe/node = SubResource("AnimationNodeAnimation_gclew")
 states/atk-fe/position = Vector2(650, 46)
 states/idle/node = SubResource("AnimationNodeAnimation_2vmxh")
@@ -115,14 +146,68 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(13.5792, -95.2623)
 
 [node name="PlayerCharacter" type="Node2D"]
+position = Vector2(36, 82)
 script = ExtResource("1_aytp6")
 
+[node name="DamageIndicator" type="Label" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = -50.0
+offset_right = 20.0
+offset_bottom = -15.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 25
+text = "15"
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("2_w1p5b")
+
+[node name="TimerHide" type="Timer" parent="DamageIndicator"]
+wait_time = 1.2
+one_shot = true
+
+[node name="StackedIndicator" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "5
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Skin" type="Sprite2D" parent="."]
-position = Vector2(80, 81)
+position = Vector2(0, -80)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_6n7gl")
 hframes = 6
 vframes = 3
+frame = 1
+
+[node name="AttackRange" type="Area2D" parent="Skin"]
+position = Vector2(4.76837e-07, 32)
+scale = Vector2(0.4, 0.4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Skin/AttackRange"]
+position = Vector2(42, -32)
+scale = Vector2(0.999999, 0.999999)
+shape = SubResource("RectangleShape2D_2aied")
+
+[node name="ApplyAttack" type="Area2D" parent="Skin"]
+collision_layer = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Skin/ApplyAttack"]
+position = Vector2(24.4, 20)
+shape = SubResource("CircleShape2D_bvv0v")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Skin")
@@ -138,5 +223,9 @@ anim_player = NodePath("../AnimationPlayer")
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="on_indicator_damage_hide" from="DamageIndicator" to="." method="_on_indicator_damage_hide"]
+[connection signal="timeout" from="DamageIndicator/TimerHide" to="DamageIndicator" method="_on_timer_hide_timeout"]
+[connection signal="area_entered" from="Skin/AttackRange" to="." method="_on_attack_range_detect_enemy"]
+[connection signal="area_entered" from="Skin/ApplyAttack" to="." method="_on_apply_attack_detect_enemy"]
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
