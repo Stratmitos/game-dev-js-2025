@@ -18,6 +18,15 @@ func show_damage(value: int) -> void:
 
 	$TimerHide.start()
 
+func show_text(text_val: String) -> void:
+	text = text_val
+	position = Vector2(-20, -50)
+	visible = true
+	if not $TimerHide.get_time_left() == 0:
+		$TimerHide.stop()
+
+	$TimerHide.start()
+
 func _on_timer_hide_timeout():
 	visible = false
 	position = Vector2(-20, -50)
