@@ -16,10 +16,27 @@ var reckless_rate: float
 var destination:float
 var identity: int
 
-@onready var state_machine = $AnimationTree["parameters/playback"]
+var animation_tree: AnimationTree
+var state_machine
 
 func _ready() -> void:
 	$StackedIndicator.text = str(stacked_count)
+	$DebuffTimer.setup(self)
+	var apply_attack: Area2D = get_node("Skin/ApplyAttack")
+	if apply_attack.is_inside_tree():
+		apply_attack.setup(self)
+
+	var attack_range: Area2D = get_node("Skin/AttackRange")
+	if attack_range.is_inside_tree():
+		attack_range.setup(self)
+
+	animation_tree = get_node("Skin/AnimationTree")
+	if animation_tree.is_inside_tree():
+		animation_tree.setup(self)
+		state_machine = animation_tree["parameters/playback"]
+	else:
+		print("Can't running player character, AnimationTree not found!")
+		queue_free()
 
 func _process(delta) -> void:
 	if state_machine.get_current_node() == "movement":
@@ -109,31 +126,8 @@ func _init_attribute_point_effect() -> void:
 	evade_rate = AttributeHandler.get_evade_chance(identity)
 	reckless_rate = AttributeHandler.get_reckless_chance(identity)
 
-func _on_animation_tree_animation_finished(anim_name):
-	if hp <= 0 and stacked_count <= 0 and anim_name == "hit":
-		queue_free()
-
 func _on_attack_timer_timeout():
 	attack()
-
-func _on_attack_range_detect_enemy(_area):
-	attack()
-
-func _on_apply_attack_detect_enemy(area):
-	var total_damage = atk
-	var critical: bool = randf_range(0.0, 100.0) <= crit_rate
-	if critical:
-		total_damage += atk * (crit_dmg / 100)
-
-	var is_hit: bool = await area.get_parent().get_parent().on_character_receive_damage(total_damage, self)
-	if knockback_rate > 0.0 and is_hit:
-		var knocked: bool = randf_range(0.0, 100) <= knockback_rate
-		if knocked:
-			area.get_parent().get_parent().state_machine.travel("hit")
-			if identity == AttributeHandler.player:
-				area.get_parent().get_parent().position.x += 25.0
-			else:
-				area.get_parent().get_parent().position.x -= 25.0
 
 func _on_indicator_damage_hide():
 	if hp <= 0 and stacked_count <= 0:

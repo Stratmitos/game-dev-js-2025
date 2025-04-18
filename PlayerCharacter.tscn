@@ -1,9 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://cqiqv4j7vbfe5"]
+[gd_scene load_steps=33 format=3 uid="uid://cqiqv4j7vbfe5"]
 
 [ext_resource type="Script" path="res://PlayerCharacter.gd" id="1_aytp6"]
 [ext_resource type="Texture2D" uid="uid://bc3degaot5pof" path="res://assets/player-animation-sheet.png" id="2_6n7gl"]
 [ext_resource type="Script" path="res://services/Character/DamageIndicator.gd" id="2_w1p5b"]
+[ext_resource type="Script" path="res://services/Character/AttackRange.gd" id="4_i8mt6"]
+[ext_resource type="Script" path="res://services/Character/ApplyAttack.gd" id="4_k2hak"]
 [ext_resource type="Script" path="res://services/Character/DebuffTimer.gd" id="4_n57cq"]
+[ext_resource type="Script" path="res://services/Character/AnimationTree.gd" id="6_348pk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2aied"]
 size = Vector2(32, 64)
@@ -201,7 +204,6 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ko8ko"]
 switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_lpvdb"]
 states/End/position = Vector2(650, 118)
@@ -265,6 +267,7 @@ vframes = 4
 [node name="AttackRange" type="Area2D" parent="Skin"]
 position = Vector2(4.76837e-07, 32)
 scale = Vector2(0.4, 0.4)
+script = ExtResource("4_i8mt6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Skin/AttackRange"]
 position = Vector2(42, -32)
@@ -275,21 +278,21 @@ shape = SubResource("RectangleShape2D_2aied")
 collision_layer = 0
 monitoring = false
 monitorable = false
+script = ExtResource("4_k2hak")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Skin/ApplyAttack"]
 position = Vector2(24.4, 20)
 shape = SubResource("CircleShape2D_bvv0v")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Skin")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Skin"]
 libraries = {
 "": SubResource("AnimationLibrary_44es0")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../Skin")
+[node name="AnimationTree" type="AnimationTree" parent="Skin"]
 tree_root = SubResource("AnimationNodeStateMachine_lpvdb")
 anim_player = NodePath("../AnimationPlayer")
+script = ExtResource("6_348pk")
 
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
@@ -301,8 +304,8 @@ script = ExtResource("4_n57cq")
 
 [connection signal="on_indicator_damage_hide" from="DamageIndicator" to="." method="_on_indicator_damage_hide"]
 [connection signal="timeout" from="DamageIndicator/TimerHide" to="DamageIndicator" method="_on_timer_hide_timeout"]
-[connection signal="area_entered" from="Skin/AttackRange" to="." method="_on_attack_range_detect_enemy"]
-[connection signal="area_entered" from="Skin/ApplyAttack" to="." method="_on_apply_attack_detect_enemy"]
-[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
+[connection signal="area_entered" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_detected"]
+[connection signal="area_entered" from="Skin/ApplyAttack" to="Skin/ApplyAttack" method="_on_enemy_entered"]
+[connection signal="animation_finished" from="Skin/AnimationTree" to="Skin/AnimationTree" method="_on_animation_finished"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="DebuffTimer" to="DebuffTimer" method="_on_timeout"]
