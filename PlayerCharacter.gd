@@ -88,8 +88,9 @@ func _init_attribute_point_effect() -> void:
 	atk_cd = 1.7 - AttributeHandler.agility.get_attack_speed(identity)
 	reckless_rate = AttributeHandler.get_reckless_chance(identity)
 
-func _on_animation_tree_animation_finished(_anim_name):
-	pass
+func _on_animation_tree_animation_finished(anim_name):
+	if hp <= 0 and stacked_count <= 0 and anim_name == "hit":
+		queue_free()
 
 func _on_attack_timer_timeout():
 	attack()
