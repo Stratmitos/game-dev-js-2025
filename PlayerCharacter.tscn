@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://cqiqv4j7vbfe5"]
+[gd_scene load_steps=30 format=3 uid="uid://cqiqv4j7vbfe5"]
 
 [ext_resource type="Script" path="res://PlayerCharacter.gd" id="1_aytp6"]
 [ext_resource type="Texture2D" uid="uid://bc3degaot5pof" path="res://assets/player-animation-sheet.png" id="2_6n7gl"]
 [ext_resource type="Script" path="res://services/Character/DamageIndicator.gd" id="2_w1p5b"]
+[ext_resource type="Script" path="res://services/Character/DebuffTimer.gd" id="4_n57cq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2aied"]
 size = Vector2(32, 64)
@@ -293,9 +294,15 @@ anim_player = NodePath("../AnimationPlayer")
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="DebuffTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+script = ExtResource("4_n57cq")
+
 [connection signal="on_indicator_damage_hide" from="DamageIndicator" to="." method="_on_indicator_damage_hide"]
 [connection signal="timeout" from="DamageIndicator/TimerHide" to="DamageIndicator" method="_on_timer_hide_timeout"]
 [connection signal="area_entered" from="Skin/AttackRange" to="." method="_on_attack_range_detect_enemy"]
 [connection signal="area_entered" from="Skin/ApplyAttack" to="." method="_on_apply_attack_detect_enemy"]
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="DebuffTimer" to="DebuffTimer" method="_on_timeout"]
