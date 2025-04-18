@@ -4,9 +4,11 @@ var stacked_count: int = randi_range(1, 5)
 var hp: float = 100.0
 var atk: float
 var def: float
+var knockback_rate: float
 var dominate_rate: float
 var crit_rate: float
 var crit_dmg: float
+var evade_rate: float
 var coward_rate: float
 var mspd: float
 var atk_cd: float
@@ -37,7 +39,7 @@ func spawn(dest: float, id: int) -> void:
 	destination = dest
 	if destination < 250:
 		$Skin.scale.x = -$Skin.scale.x
-	
+
 	AttributeHandler.strength.set_value(id, randi_range(10, 100))
 	AttributeHandler.intelligence.set_value(id, randi_range(10, 100))
 	AttributeHandler.agility.set_value(id, randi_range(10, 100))
@@ -54,22 +56,39 @@ func attack() -> void:
 	$AttackTimer.wait_time = atk_cd
 	$AttackTimer.start()
 
-func on_character_receive_damage(value: float, node_source: Node2D) -> void:
-	$DamageIndicator.show_damage(value)
-	while value > 0:
-		var current_hp: float = hp
-		hp -= value
-		value -= current_hp
-		if hp <= 0:
-			stacked_count -= 1
-			if stacked_count <= 0:
-				$StackedIndicator.text = str(0)
-				node_source.on_character_kill_enemy()
-			else:
-				$StackedIndicator.text = str(stacked_count)
-				hp = 100.0
+func on_character_receive_damage(value: float, node_source: Node2D) -> bool:
+	value -= def
+	var evade: bool = randf_range(0.0, 100.0) <= evade_rate
+	if not evade:
+		$DamageIndicator.show_damage(value)
+		while value > 0:
+			var current_hp: float = hp
+			hp -= value
+			value -= current_hp
+			if hp <= 0:
+				stacked_count -= 1
+				if stacked_count <= 0:
+					state_machine.travel("hit")
+					$StackedIndicator.text = str(0)
+					node_source.on_character_kill_enemy()
+				else:
+					$StackedIndicator.text = str(stacked_count)
+					hp = 100.0
 
-		await get_tree().create_timer(0.1).timeout
+			await get_tree().create_timer(0.1).timeout
+	else:
+		$DamageIndicator.show_text("MISS!")
+
+	return not evade
+
+func on_character_debuff_activated() -> void:
+	stacked_count -= 1
+	if stacked_count <= 0:
+		hp = 0
+		$StackedIndicator.text = str(0)
+		state_machine.travel("hit")
+	else:
+		$StackedIndicator.text = str(stacked_count)
 
 func on_character_kill_enemy() -> void:
 	$AttackTimer.stop()
@@ -78,6 +97,7 @@ func on_character_kill_enemy() -> void:
 func _init_attribute_point_effect() -> void:
 	atk = AttributeHandler.strength.get_atk_point(identity) * stacked_count
 	def = AttributeHandler.strength.get_def_point(identity) * stacked_count
+	knockback_rate = AttributeHandler.get_knockback_chance(identity)
 	dominate_rate = AttributeHandler.get_dominate_chance(identity)
 
 	crit_rate = AttributeHandler.intelligence.get_critical_rate(identity)
@@ -86,6 +106,7 @@ func _init_attribute_point_effect() -> void:
 
 	mspd = 100 + AttributeHandler.agility.get_movement_speed(identity)
 	atk_cd = 1.7 - AttributeHandler.agility.get_attack_speed(identity)
+	evade_rate = AttributeHandler.get_evade_chance(identity)
 	reckless_rate = AttributeHandler.get_reckless_chance(identity)
 
 func _on_animation_tree_animation_finished(anim_name):
@@ -99,8 +120,21 @@ func _on_attack_range_detect_enemy(_area):
 	attack()
 
 func _on_apply_attack_detect_enemy(area):
-	area.get_parent().get_parent().on_character_receive_damage(atk, self)
+	var total_damage = atk
+	var critical: bool = randf_range(0.0, 100.0) <= crit_rate
+	if critical:
+		total_damage += atk * (crit_dmg / 100)
+
+	var is_hit: bool = await area.get_parent().get_parent().on_character_receive_damage(total_damage, self)
+	if knockback_rate > 0.0 and is_hit:
+		var knocked: bool = randf_range(0.0, 100) <= knockback_rate
+		if knocked:
+			area.get_parent().get_parent().state_machine.travel("hit")
+			if identity == AttributeHandler.player:
+				area.get_parent().get_parent().position.x += 25.0
+			else:
+				area.get_parent().get_parent().position.x -= 25.0
 
 func _on_indicator_damage_hide():
-	if hp <= 0:
+	if hp <= 0 and stacked_count <= 0:
 		queue_free()
