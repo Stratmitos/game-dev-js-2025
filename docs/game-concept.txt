@@ -8,17 +8,17 @@ Kamu adalah seorang komandan perang yang mengatur segala sesuatu yang dibutuhkan
 Pasukan:
 Pasukan memiliki 3 attribute point, yaitu:
 buff / debuff
-- Strength:
+- Strength: [DONE - IMPLEMENTED]
 	1 Strength = -0.125% melarikan diri, karena merasa dirinya cukup kuat untuk berperang
 	1 Strength = -0.125% keluar dari barisan perang, karena mengandalkan kekuatan dan jumlah, bukan hanya kecepatan.
 	1 Strength = +0.25% melukai teman sendiri, karena merasa dirinya paling kuat pada saat berperang.
 
-- Agility:
+- Agility: [DONE - IMPLEMENTED]
 	1 Agility = -0.125% melarikan diri, karena merasa dirinya lincah dan dapat diandalkan.
 	1 Agility = -0.125% melukai teman sendiri, karena merasa dirinya mudah lengah sehingga membutuhkan teman.
 	1 Agility = +0.25% keluar dari barisan perang, karena merasa mampu mengatasi musuh tanpa formasi dan kekuatan.
 
-- Intelligence:
+- Intelligence: [DONE - IMPLEMENTED]
 	1 Int = -0.125% melukai teman sendiri, karena melukai teman sendiri itu perbuatan buruk.
 	1 Int = -0.125% keluar dari barisan perang, karena paham mengikuti rencana adalah sesuatu hal yang penting.
 	1 Int = +0.25% melarikan diri, karena merasa dirinya lemah pada saat berperang.
@@ -26,17 +26,17 @@ buff / debuff
 base buff:
 - Strength:
 	1 Strength = 0.7 Atk [DONE - IMPLEMENTED]
-	1 Strength = 0.5 Def
+	1 Strength = 0.5 Def [DONE - IMPLEMENTED]
 	1 Strength = 0.20% knock back chance
 - Agility:
 	1 Agility = 0.0075 Movement speed [DONE - IMPLEMENTED]
 	1 Agility = 0.001 Attack speed [DONE - IMPLEMENTED]
-	1 Agility = 0.20% Evasion
+	1 Agility = 0.20% Evasion [DONE - IMPLEMENTED]
 - Intelligence:
-	1 INT = 0.35% critical rate
-	1 INT = 0.25% critical damage
+	1 INT = 0.35% critical rate [DONE - IMPLEMENTED]
+	1 INT = 0.25% critical damage [DONE - IMPLEMENTED]
 	1 INT = 0.5% knock back chance
-	1 INT = 0.5% Evasion
+	1 INT = 0.5% Evasion [DONE - IMPLEMENTED]
 
 Program Recruitment pasukan:
 Terdapat 3 sumber pasukan:
