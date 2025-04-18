@@ -21,7 +21,7 @@ func _ready() -> void:
 
 func _process(delta) -> void:
 	if state_machine.get_current_node() == "movement":
-		if destination > 250:
+		if identity == AttributeHandler.player:
 			if position.x <= 1000:
 				position.x += delta * mspd
 			else:
