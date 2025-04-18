@@ -31,14 +31,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ApplyAttack:monitoring")
+tracks/1/path = NodePath("ApplyAttack:collision_layer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
+"update": 0,
+"values": [0, 1, 0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -49,20 +49,72 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
+"update": 0,
 "values": [false, true, false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("ApplyAttack:collision_layer")
+tracks/3/path = NodePath("ApplyAttack:monitoring")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_l3s6o"]
+resource_name = "hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [0, 1, 0]
+"values": [18, 19]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ApplyAttack:collision_layer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ApplyAttack:monitorable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ApplyAttack:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_2b5i4"]
@@ -102,12 +154,16 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_caavq"),
 "atk-fe": SubResource("Animation_4y2fk"),
+"hit": SubResource("Animation_l3s6o"),
 "idle": SubResource("Animation_2b5i4"),
 "movement": SubResource("Animation_6fbe1")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gclew"]
 animation = &"atk-fe"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5kxlu"]
+animation = &"hit"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2vmxh"]
 animation = &"idle"
@@ -133,16 +189,31 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_aa150"]
 switch_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ys5e5"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xss7s"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7g0x3"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kf0r7"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ko8ko"]
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_lpvdb"]
 states/End/position = Vector2(650, 118)
 states/Start/position = Vector2(322, 118)
 states/atk-fe/node = SubResource("AnimationNodeAnimation_gclew")
 states/atk-fe/position = Vector2(650, 46)
+states/hit/node = SubResource("AnimationNodeAnimation_5kxlu")
+states/hit/position = Vector2(367.579, 46)
 states/idle/node = SubResource("AnimationNodeAnimation_2vmxh")
 states/idle/position = Vector2(501, 118)
 states/movement/node = SubResource("AnimationNodeAnimation_1b6qw")
 states/movement/position = Vector2(501, -47)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_f0klw"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_votnu"), "idle", "movement", SubResource("AnimationNodeStateMachineTransition_1c37w"), "movement", "idle", SubResource("AnimationNodeStateMachineTransition_hfpkd"), "movement", "atk-fe", SubResource("AnimationNodeStateMachineTransition_iu264"), "atk-fe", "idle", SubResource("AnimationNodeStateMachineTransition_gqk8d"), "atk-fe", "movement", SubResource("AnimationNodeStateMachineTransition_aa150")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_f0klw"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_votnu"), "idle", "movement", SubResource("AnimationNodeStateMachineTransition_1c37w"), "movement", "idle", SubResource("AnimationNodeStateMachineTransition_hfpkd"), "movement", "atk-fe", SubResource("AnimationNodeStateMachineTransition_iu264"), "atk-fe", "idle", SubResource("AnimationNodeStateMachineTransition_gqk8d"), "atk-fe", "movement", SubResource("AnimationNodeStateMachineTransition_aa150"), "atk-fe", "hit", SubResource("AnimationNodeStateMachineTransition_ys5e5"), "movement", "hit", SubResource("AnimationNodeStateMachineTransition_xss7s"), "idle", "hit", SubResource("AnimationNodeStateMachineTransition_7g0x3"), "hit", "idle", SubResource("AnimationNodeStateMachineTransition_kf0r7"), "hit", "movement", SubResource("AnimationNodeStateMachineTransition_ko8ko")]
 graph_offset = Vector2(13.5792, -95.2623)
 
 [node name="PlayerCharacter" type="Node2D"]
@@ -188,8 +259,7 @@ position = Vector2(0, -80)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_6n7gl")
 hframes = 6
-vframes = 3
-frame = 1
+vframes = 4
 
 [node name="AttackRange" type="Area2D" parent="Skin"]
 position = Vector2(4.76837e-07, 32)
