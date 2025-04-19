@@ -1,7 +1,457 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpea6t40h1wiw"]
+[gd_scene load_steps=10 format=3 uid="uid://dpea6t40h1wiw"]
 
-[ext_resource type="PackedScene" uid="uid://cqiqv4j7vbfe5" path="res://PlayerCharacter.tscn" id="1_waqf3"]
+[ext_resource type="Script" path="res://Gameplay.gd" id="1_hqk78"]
+[ext_resource type="PackedScene" uid="uid://bhdhfu0ydgoc7" path="res://services/PlayableCharacter/GirlTroop.tscn" id="2_frqxu"]
+[ext_resource type="PackedScene" uid="uid://bjtg6be4bgtpq" path="res://services/PlayableCharacter/Slime.tscn" id="3_jk7ph"]
+[ext_resource type="Script" path="res://services/UI/StatisticPanel.gd" id="4_d07n5"]
+[ext_resource type="Script" path="res://services/UI/MenuPanel.gd" id="4_eopcn"]
+[ext_resource type="Script" path="res://services/UI/TrainingPanel.gd" id="5_dr4j1"]
+[ext_resource type="Script" path="res://services/UI/RecruitPanel.gd" id="5_ledom"]
+[ext_resource type="Script" path="res://services/UI/Economy.gd" id="8_jypwr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_crhkw"]
+bg_color = Color(0, 0, 0, 0.392157)
 
 [node name="Gameplay" type="Node2D"]
+script = ExtResource("1_hqk78")
 
-[node name="PlayerCharacter" parent="." instance=ExtResource("1_waqf3")]
+[node name="Slime" parent="." instance=ExtResource("3_jk7ph")]
+position = Vector2(1052, 100)
+
+[node name="GirlTroop" parent="." instance=ExtResource("2_frqxu")]
+position = Vector2(100, 100)
+
+[node name="MenuPanel" type="Panel" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 468.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("4_eopcn")
+
+[node name="RecruitPanel" type="Panel" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0087184
+anchor_top = 0.0558659
+anchor_right = 0.156931
+anchor_bottom = 0.949721
+offset_right = 170.0
+grow_vertical = 2
+script = ExtResource("5_ledom")
+metadata/_edit_use_anchors_ = true
+
+[node name="Recruit" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.14375
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Recruit"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="STR" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0294118
+anchor_top = 0.21875
+anchor_right = 0.323529
+anchor_bottom = 0.375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "STR: 999"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="AGL" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.352941
+anchor_top = 0.21875
+anchor_right = 0.647059
+anchor_bottom = 0.375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "AGL: 999"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="INT" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0294118
+anchor_top = 0.375
+anchor_right = 0.323529
+anchor_bottom = 0.53125
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "INT: 999"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Price" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.352941
+anchor_top = 0.375
+anchor_right = 0.647059
+anchor_bottom = 0.53125
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "Price: 999"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Find" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0294118
+anchor_top = 0.625
+anchor_right = 0.617647
+anchor_bottom = 0.9375
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Find other candidate (999)"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Add1" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.647059
+anchor_top = 0.21875
+anchor_right = 0.794118
+anchor_bottom = 0.53125
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "+ 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Add5" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.823529
+anchor_top = 0.21875
+anchor_right = 0.970588
+anchor_bottom = 0.53125
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "+ 5
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Add15" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.647059
+anchor_top = 0.625
+anchor_right = 0.794118
+anchor_bottom = 0.9375
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "+ 15
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Add25" type="Label" parent="MenuPanel/RecruitPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.823529
+anchor_top = 0.625
+anchor_right = 0.970588
+anchor_bottom = 0.9375
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "+ 25"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TrainingPanel" type="Panel" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.313862
+anchor_top = 0.0558659
+anchor_right = 0.462075
+anchor_bottom = 0.949721
+offset_left = 0.000518799
+offset_right = 0.000549316
+grow_vertical = 2
+script = ExtResource("5_dr4j1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Training" type="Label" parent="MenuPanel/TrainingPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.14375
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Training"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="STR" type="Label" parent="MenuPanel/TrainingPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588235
+anchor_top = 0.21875
+anchor_right = 0.941176
+anchor_bottom = 0.4375
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Train STR (999)"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="INT" type="Label" parent="MenuPanel/TrainingPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588235
+anchor_top = 0.465625
+anchor_right = 0.941176
+anchor_bottom = 0.684375
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Train INT (999)"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="AGL" type="Label" parent="MenuPanel/TrainingPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588235
+anchor_top = 0.71875
+anchor_right = 0.941176
+anchor_bottom = 0.9375
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Train AGL (999)"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="StatisticPanel" type="Panel" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.470793
+anchor_top = 0.0558659
+anchor_right = 0.619006
+anchor_bottom = 0.949721
+offset_right = 6.10352e-05
+grow_vertical = 2
+script = ExtResource("4_d07n5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Statistic" type="Label" parent="MenuPanel/StatisticPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.14375
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Statistic
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="STR" type="Label" parent="MenuPanel/StatisticPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.21875
+anchor_right = 0.941174
+anchor_bottom = 0.375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "STR: 999"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="INT" type="Label" parent="MenuPanel/StatisticPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.40625
+anchor_right = 0.941174
+anchor_bottom = 0.5625
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "INT: 999"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="AGL" type="Label" parent="MenuPanel/StatisticPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.59375
+anchor_right = 0.941174
+anchor_bottom = 0.75
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "AGL: 999"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Money" type="Label" parent="MenuPanel/StatisticPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.78125
+anchor_right = 0.941174
+anchor_bottom = 0.9375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "Money: 999"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Economy" type="Panel" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.627725
+anchor_top = 0.0558659
+anchor_right = 0.775938
+anchor_bottom = 0.949721
+offset_left = -6.10352e-05
+grow_vertical = 2
+script = ExtResource("8_jypwr")
+metadata/_edit_use_anchors_ = true
+
+[node name="Economy" type="Label" parent="MenuPanel/Economy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.14375
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_crhkw")
+text = "Economy
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PublicTrust" type="Label" parent="MenuPanel/Economy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.21875
+anchor_right = 0.941174
+anchor_bottom = 0.375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "Public Trust: 999%"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="BaseTax" type="Label" parent="MenuPanel/Economy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.40625
+anchor_right = 0.941174
+anchor_bottom = 0.5625
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "Base Tax: 999"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Day" type="Label" parent="MenuPanel/Economy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.59375
+anchor_right = 0.941174
+anchor_bottom = 0.75
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "Day: 999"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TaxEarned" type="Label" parent="MenuPanel/Economy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0588234
+anchor_top = 0.78125
+anchor_right = 0.941174
+anchor_bottom = 0.9375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 13
+text = "Tax Earned Today: 999"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="War" type="Panel" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.784246
+anchor_top = 0.0558659
+anchor_right = 0.993329
+anchor_bottom = 0.949721
+grow_vertical = 2
+mouse_filter = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="MenuPanel/War"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 35
+text = "START WAR!"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="on_player_recruit_troop" from="MenuPanel/RecruitPanel" to="." method="_on_player_recruit_troop"]
+[connection signal="gui_input" from="MenuPanel/RecruitPanel/Find" to="MenuPanel/RecruitPanel" method="_on_find_other_candidate"]
+[connection signal="gui_input" from="MenuPanel/RecruitPanel/Add1" to="MenuPanel/RecruitPanel" method="_on_add_one"]
+[connection signal="gui_input" from="MenuPanel/RecruitPanel/Add5" to="MenuPanel/RecruitPanel" method="_on_add_five"]
+[connection signal="gui_input" from="MenuPanel/RecruitPanel/Add15" to="MenuPanel/RecruitPanel" method="_on_add_fifteen"]
+[connection signal="gui_input" from="MenuPanel/RecruitPanel/Add25" to="MenuPanel/RecruitPanel" method="_on_add_twenty_five"]
+[connection signal="gui_input" from="MenuPanel/TrainingPanel/STR" to="MenuPanel/TrainingPanel" method="_on_training_str"]
+[connection signal="gui_input" from="MenuPanel/TrainingPanel/INT" to="MenuPanel/TrainingPanel" method="_on_training_int"]
+[connection signal="gui_input" from="MenuPanel/TrainingPanel/AGL" to="MenuPanel/TrainingPanel" method="_on_training_agility"]
+[connection signal="gui_input" from="MenuPanel/War" to="." method="_on_player_start_war"]
