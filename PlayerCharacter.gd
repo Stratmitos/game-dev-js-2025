@@ -41,12 +41,12 @@ func _ready() -> void:
 func _process(delta) -> void:
 	if state_machine.get_current_node() == "movement":
 		if identity == AttributeHandler.player:
-			if position.x <= 1000:
+			if position.x < 1000:
 				position.x += delta * mspd
 			else:
 				state_machine.travel("idle")
 		else:
-			if position.x >= 250:
+			if position.x > 100:
 				position.x -= delta * mspd
 			else:
 				state_machine.travel("idle")
@@ -54,7 +54,7 @@ func _process(delta) -> void:
 func spawn(dest: float, id: int) -> void:
 	identity = id
 	destination = dest
-	if destination < 250:
+	if identity == AttributeHandler.enemy:
 		$Skin.scale.x = -$Skin.scale.x
 
 	AttributeHandler.strength.set_value(id, randi_range(10, 100))
@@ -63,7 +63,6 @@ func spawn(dest: float, id: int) -> void:
 	_init_attribute_point_effect()
 
 	state_machine.travel("idle")
-	move()
 
 func move() -> void:
 	state_machine.travel("movement")
@@ -87,7 +86,8 @@ func on_character_receive_damage(value: float, node_source: Node2D) -> bool:
 				if stacked_count <= 0:
 					state_machine.travel("hit")
 					$StackedIndicator.text = str(0)
-					node_source.on_character_kill_enemy()
+					if node_source:
+						node_source.on_character_kill_enemy()
 				else:
 					$StackedIndicator.text = str(stacked_count)
 					hp = 100.0
@@ -127,7 +127,8 @@ func _init_attribute_point_effect() -> void:
 	reckless_rate = AttributeHandler.get_reckless_chance(identity)
 
 func _on_attack_timer_timeout():
-	attack()
+	if not state_machine.get_current_node() == "hit":
+		attack()
 
 func _on_indicator_damage_hide():
 	if hp <= 0 and stacked_count <= 0:
