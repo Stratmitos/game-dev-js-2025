@@ -1,6 +1,6 @@
 extends Node2D
 
-var stacked_count: int = randi_range(1, 5)
+var stacked_count: int = 10
 var hp: float = 100.0
 var atk: float
 var def: float
@@ -73,6 +73,7 @@ func attack() -> void:
 	$AttackTimer.start()
 
 func on_character_receive_damage(value: float, node_source: Node2D) -> bool:
+	print(node_source)
 	value -= def
 	var evade: bool = randf_range(0.0, 100.0) <= evade_rate
 	if not evade:
@@ -110,6 +111,10 @@ func on_character_debuff_activated() -> void:
 func on_character_kill_enemy() -> void:
 	$AttackTimer.stop()
 	move()
+
+func on_player_add_troop(value: int) -> void:
+	stacked_count += value
+	$StackedIndicator.text = str(stacked_count)
 
 func _init_attribute_point_effect() -> void:
 	atk = AttributeHandler.strength.get_atk_point(identity) * stacked_count
