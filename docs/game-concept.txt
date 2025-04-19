@@ -38,20 +38,11 @@ base buff:
 	1 INT = 0.5% knock back chance [DONE - IMPLEMENTED]
 	1 INT = 0.5% Evasion [DONE - IMPLEMENTED]
 
-Program Recruitment pasukan:
-Terdapat 3 sumber pasukan:
-- Worker (Price: 10 + Day + 100% - Kepercayaan publik)
+Program Recruitment pasukan: [DONE - IMPLEMENTED]
+- Price: 10 + Day + 100% - Kepercayaan publik
 	- STR +3 / +2 / +1 + Day
 	- INT +1 / -1 / -2 + Day
 	- AGL +2 / +1 / -1 + Day
-- Academy (Price: 7 + Day)
-	- STR +1 / -1 / -2 + Day
-	- INT +3 / +2 / +1 + Day
-	- AGL +2 / +1 / -1 + Day
-- NEET (Price: 12 + Day + 100% - Kepercayaan publik)
-	- STR Random(-3 ~ 3) + Day
-	- INT Random(-3 ~ 3) + Day
-	- AGL Random(-3 ~ 3) + Day
 
 Program Training Pasukan:
 - Focus STR / AGL / INT (Price 20 + Day + 100% - Kepercayaan publik) += 10 ~ 50 [DONE - IMPLEMENTED]
