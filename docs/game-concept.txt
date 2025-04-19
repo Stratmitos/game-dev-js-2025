@@ -54,11 +54,11 @@ Terdapat 3 sumber pasukan:
 	- AGL Random(-3 ~ 3) + Day
 
 Program Training Pasukan:
-- Focus STR / AGL / INT (Price 20 + Day + 100% - Kepercayaan publik) += 10 ~ 50
-- Universal STR & AGL & INT (Price 20 + Day + 100% - Kepercayaan publik) += 10 ~ 25
+- Focus STR / AGL / INT (Price 20 + Day + 100% - Kepercayaan publik) += 10 ~ 50 [DONE - IMPLEMENTED]
+- Universal STR & AGL & INT (Price 20 + Day + 100% - Kepercayaan publik) += 10 ~ 25 [CANCELLED]
 
 Event Economy:
-- Kepercayaan Publik 100% = Tidak ada permintaan harga tambahan saat training dan recruitment.
+- Kepercayaan Publik 100% = Tidak ada permintaan harga tambahan saat training dan recruitment. [DONE - IMPLEMENTED]
 - Penerimaan pajak berdasarkan harga dasar pajak x persentase kepercayaan publik.
 - Setiap hari akan ada debuff / buff kepercayaan publik + / - 1 ~ 10% + Day
 
