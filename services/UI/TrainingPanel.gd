@@ -22,12 +22,10 @@ func _on_training_str(event):
 		if MoneyHandler.is_value_enough_for(price_str):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_str)
 			var str_val: int = AttributeHandler.strength.get_value(playerid) + randi_range(1, 5)
-			var node_statistic: Panel = get_parent().get_node("StatisticPanel")
 			AttributeHandler.strength.set_value(playerid, str_val)
 			_refresh_statistic()
 
 func _on_training_int(event):
-	var current_money = MoneyHandler.get_value()
 	if event is InputEventMouseButton and event.pressed:
 		if MoneyHandler.is_value_enough_for(price_int):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_int)
@@ -36,7 +34,6 @@ func _on_training_int(event):
 			_refresh_statistic()
 
 func _on_training_agility(event):
-	var current_money = MoneyHandler.get_value()
 	if event is InputEventMouseButton and event.pressed:
 		if MoneyHandler.is_value_enough_for(price_agl):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_agl)
