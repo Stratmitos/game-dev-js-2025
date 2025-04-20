@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dpea6t40h1wiw"]
+[gd_scene load_steps=11 format=3 uid="uid://dpea6t40h1wiw"]
 
 [ext_resource type="Script" path="res://Gameplay.gd" id="1_hqk78"]
 [ext_resource type="PackedScene" uid="uid://bhdhfu0ydgoc7" path="res://services/PlayableCharacter/GirlTroop.tscn" id="2_frqxu"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://services/UI/TrainingPanel.gd" id="5_dr4j1"]
 [ext_resource type="Script" path="res://services/UI/RecruitPanel.gd" id="5_ledom"]
 [ext_resource type="Script" path="res://services/UI/Economy.gd" id="8_jypwr"]
+[ext_resource type="Script" path="res://services/UI/WarResult.gd" id="9_c5f70"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_crhkw"]
 bg_color = Color(0, 0, 0, 0.392157)
@@ -445,6 +446,29 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="WarResult" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 576.0
+offset_top = 200.0
+offset_right = 616.0
+offset_bottom = 223.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "YOU LOSE!"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("9_c5f70")
+
+[node name="Timer" type="Timer" parent="WarResult"]
+wait_time = 2.3
+one_shot = true
+
 [connection signal="on_player_recruit_troop" from="MenuPanel/RecruitPanel" to="." method="_on_player_recruit_troop"]
 [connection signal="gui_input" from="MenuPanel/RecruitPanel/Find" to="MenuPanel/RecruitPanel" method="_on_find_other_candidate"]
 [connection signal="gui_input" from="MenuPanel/RecruitPanel/Add1" to="MenuPanel/RecruitPanel" method="_on_add_one"]
@@ -455,3 +479,4 @@ metadata/_edit_use_anchors_ = true
 [connection signal="gui_input" from="MenuPanel/TrainingPanel/INT" to="MenuPanel/TrainingPanel" method="_on_training_int"]
 [connection signal="gui_input" from="MenuPanel/TrainingPanel/AGL" to="MenuPanel/TrainingPanel" method="_on_training_agility"]
 [connection signal="gui_input" from="MenuPanel/War" to="." method="_on_player_start_war"]
+[connection signal="timeout" from="WarResult/Timer" to="." method="_on_war_result_finished"]
