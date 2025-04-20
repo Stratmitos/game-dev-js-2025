@@ -12,5 +12,9 @@ func get_value() -> int:
 
 func is_value_enough_for(price: int) -> bool:
 	return money >= price
+
+func toggle_allowed_to_spent_money(value: bool) -> void:
+	allow_to_spent_money = value
+
 func is_allowed_to_spent_money() -> bool:
 	return allow_to_spent_money
