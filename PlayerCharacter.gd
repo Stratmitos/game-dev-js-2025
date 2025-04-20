@@ -1,5 +1,7 @@
 extends Node2D
 
+signal war_is_over(is_win: bool)
+
 var stacked_count: int = 10
 var hp: float = 100.0
 var atk: float
@@ -121,6 +123,15 @@ func on_character_debuff_activated() -> void:
 		$StackedIndicator.text = str(stacked_count)
 		_init_attribute_point_effect()
 
+func on_character_dead() -> void:
+	$AttackTimer.stop()
+	$DebuffTimer.stop()
+	visible = false
+	set_process(false)
+	if not MoneyHandler.is_allowed_to_spent_money():
+		MoneyHandler.toggle_allowed_to_spent_money(true)
+		emit_signal("war_is_over", not identity == AttributeHandler.player)
+
 func on_character_kill_enemy() -> void:
 	$AttackTimer.stop()
 	$DebuffTimer.stop()
@@ -151,4 +162,4 @@ func _on_attack_timer_timeout():
 
 func _on_indicator_damage_hide():
 	if hp <= 0 and stacked_count <= 0:
-		queue_free()
+		on_character_dead()
