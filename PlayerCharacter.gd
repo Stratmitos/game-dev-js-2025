@@ -55,10 +55,17 @@ func _process(delta) -> void:
 				state_machine.travel("idle")
 
 func spawn(dest: float, id: int) -> void:
+	$AttackTimer.stop()
+	$DebuffTimer.stop()
+	visible = true
+	set_process(true)
 	identity = id
 	destination = dest
 	if identity == AttributeHandler.enemy:
 		$Skin.scale.x = -$Skin.scale.x
+		position = Vector2(1052, 100)
+	else:
+		position = Vector2(100, 100)
 
 	AttributeHandler.strength.set_value(id, randi_range(10, 100))
 	AttributeHandler.intelligence.set_value(id, randi_range(10, 100))
@@ -91,8 +98,10 @@ func on_character_receive_damage(value: float, node_source: Node2D) -> bool:
 					state_machine.travel("hit")
 					$StackedIndicator.text = str(0)
 					if node_source:
+						value = 0
 						node_source.on_character_kill_enemy()
 				else:
+					_init_attribute_point_effect()
 					$StackedIndicator.text = str(stacked_count)
 					hp = 100.0
 
@@ -110,9 +119,11 @@ func on_character_debuff_activated() -> void:
 		state_machine.travel("hit")
 	else:
 		$StackedIndicator.text = str(stacked_count)
+		_init_attribute_point_effect()
 
 func on_character_kill_enemy() -> void:
 	$AttackTimer.stop()
+	$DebuffTimer.stop()
 	move()
 
 func on_player_add_troop(value: int) -> void:
