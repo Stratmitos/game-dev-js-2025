@@ -10,4 +10,6 @@ func _on_animation_finished(anim_name):
 		if parent.hp <= 0 and parent.stacked_count <= 0:
 			parent.queue_free()
 		else:
-			parent.move()
+			if not MoneyHandler.is_allowed_to_spent_money():
+				print("animation_finished")
+				parent.move()

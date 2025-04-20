@@ -39,6 +39,9 @@ func _ready() -> void:
 		queue_free()
 
 func _process(delta) -> void:
+	if MoneyHandler.is_allowed_to_spent_money():
+		return
+
 	if state_machine.get_current_node() == "movement":
 		if identity == AttributeHandler.player:
 			if position.x < 1000:

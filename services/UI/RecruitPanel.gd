@@ -34,6 +34,9 @@ func refresh_attribute() -> void:
 	$INT.text = "INT: %d" % int_val
 
 func _on_find_other_candidate(event) -> void:
+	if not MoneyHandler.is_allowed_to_spent_money():
+		return
+
 	if event is InputEventMouseButton and event.pressed:
 		if MoneyHandler.is_value_enough_for(price_refresh_recruit):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_refresh_recruit)
@@ -41,6 +44,9 @@ func _on_find_other_candidate(event) -> void:
 			get_parent().get_node("StatisticPanel").refresh_money()
 
 func _on_add_one(event):
+	if not MoneyHandler.is_allowed_to_spent_money():
+		return
+
 	if event is InputEventMouseButton and event.pressed:
 		if MoneyHandler.is_value_enough_for(price_recruit * 1):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_recruit * 1)
@@ -49,6 +55,9 @@ func _on_add_one(event):
 			get_parent().get_node("StatisticPanel").refresh_money()
 
 func _on_add_five(event):
+	if not MoneyHandler.is_allowed_to_spent_money():
+		return
+
 	if event is InputEventMouseButton and event.pressed:
 		if MoneyHandler.is_value_enough_for(price_recruit * 5):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_recruit * 5)
@@ -57,6 +66,9 @@ func _on_add_five(event):
 			get_parent().get_node("StatisticPanel").refresh_money()
 
 func _on_add_fifteen(event):
+	if not MoneyHandler.is_allowed_to_spent_money():
+		return
+
 	if event is InputEventMouseButton and event.pressed:
 		if MoneyHandler.is_value_enough_for(price_recruit * 15):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_recruit * 15)
@@ -65,6 +77,9 @@ func _on_add_fifteen(event):
 			get_parent().get_node("StatisticPanel").refresh_money()
 
 func _on_add_twenty_five(event):
+	if not MoneyHandler.is_allowed_to_spent_money():
+		return
+
 	if event is InputEventMouseButton and event.pressed:
 		if MoneyHandler.is_value_enough_for(price_recruit * 25):
 			MoneyHandler.set_value(MoneyHandler.get_value() - price_recruit * 25)
