@@ -12,7 +12,7 @@ func _ready() -> void:
 	set_public_trust(public_trust)
 	set_base_tax(base_tax)
 	set_day_passed(day_passed)
-	set_text_earned(tax_earned)
+	set_tax_earned(tax_earned)
 
 func set_public_trust(value: int) -> void:
 	public_trust = value
@@ -35,7 +35,7 @@ func set_day_passed(value: int) -> void:
 func get_day_passed() -> int:
 	return day_passed
 
-func set_text_earned(value: int) -> void:
+func set_tax_earned(value: int) -> void:
 	tax_earned = value
 	$TaxEarned.text = "Tax Earned Today: %d" % tax_earned
 
