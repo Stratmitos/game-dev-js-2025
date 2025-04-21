@@ -80,7 +80,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
+"update": 0,
 "values": [18, 19]
 }
 tracks/1/type = "value"
@@ -228,6 +228,7 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_14vod")
 hframes = 6
 vframes = 4
+frame = 1
 
 [node name="AttackRange" type="Area2D" parent="Skin" index="0"]
 position = Vector2(4.76837e-07, 32)
@@ -260,5 +261,6 @@ anim_player = NodePath("../AnimationPlayer")
 script = ExtResource("5_insmp")
 
 [connection signal="area_entered" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_detected"]
+[connection signal="area_exited" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_leave_attack_range"]
 [connection signal="area_entered" from="Skin/ApplyAttack" to="Skin/ApplyAttack" method="_on_enemy_entered"]
 [connection signal="animation_finished" from="Skin/AnimationTree" to="Skin/AnimationTree" method="_on_animation_finished"]

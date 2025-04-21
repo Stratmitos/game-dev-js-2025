@@ -24,6 +24,7 @@ var state_machine
 func _ready() -> void:
 	$StackedIndicator.text = str(stacked_count)
 	$DebuffTimer.setup(self)
+
 	var apply_attack: Area2D = get_node("Skin/ApplyAttack")
 	if apply_attack.is_inside_tree():
 		apply_attack.setup(self)
@@ -57,15 +58,15 @@ func _process(delta) -> void:
 				state_machine.travel("idle")
 
 func spawn(dest: float, id: int) -> void:
-	$AttackTimer.stop()
 	$DebuffTimer.stop()
 	visible = true
 	set_process(true)
 	identity = id
 	destination = dest
 	if identity == AttributeHandler.enemy:
-		$Skin.scale.x = -$Skin.scale.x
 		position = Vector2(1052, 100)
+		if $Skin.scale.x > 0:
+			$Skin.scale.x = -$Skin.scale.x
 	else:
 		position = Vector2(100, 100)
 
@@ -80,14 +81,17 @@ func move() -> void:
 	state_machine.travel("movement")
 
 func attack() -> void:
-	state_machine.travel("atk-fe")
-	$AttackTimer.wait_time = atk_cd
-	$AttackTimer.start()
+	if is_allowed_to_attack:
+		is_allowed_to_attack = false
+		state_machine.travel("atk-fe")
+		$AttackTimer.wait_time = atk_cd
+		$AttackTimer.start()
+	else:
+		state_machine.travel("idle")
 
 func on_character_receive_damage(value: float, node_source: Node2D) -> bool:
-	print(node_source)
 	value -= def
-	var evade: bool = randf_range(0.0, 100.0) <= evade_rate
+	var evade: bool = randf_range(0.0, 100.0) <= AttributeHandler.get_evade_chance(identity)
 	if not evade:
 		$DamageIndicator.show_damage(value)
 		while value > 0:
@@ -124,7 +128,6 @@ func on_character_debuff_activated() -> void:
 		_init_attribute_point_effect()
 
 func on_character_dead() -> void:
-	$AttackTimer.stop()
 	$DebuffTimer.stop()
 	visible = false
 	set_process(false)
@@ -133,7 +136,6 @@ func on_character_dead() -> void:
 		emit_signal("war_is_over", not identity == AttributeHandler.player)
 
 func on_character_kill_enemy() -> void:
-	$AttackTimer.stop()
 	$DebuffTimer.stop()
 	move()
 
@@ -157,7 +159,8 @@ func _init_attribute_point_effect() -> void:
 	reckless_rate = AttributeHandler.get_reckless_chance(identity)
 
 func _on_attack_timer_timeout():
-	if not state_machine.get_current_node() == "hit":
+	is_allowed_to_attack = true
+	if not state_machine.get_current_node() == "hit" and not state_machine.get_current_node() == "movement":
 		attack()
 
 func _on_indicator_damage_hide():

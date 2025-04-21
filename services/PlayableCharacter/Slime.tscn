@@ -228,7 +228,7 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_lyt54")
 hframes = 11
 vframes = 4
-frame = 3
+frame = 4
 
 [node name="AttackRange" type="Area2D" parent="Skin" index="0"]
 position = Vector2(4.76837e-07, 32)
@@ -261,5 +261,6 @@ anim_player = NodePath("../AnimationPlayer")
 script = ExtResource("5_oyt7r")
 
 [connection signal="area_entered" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_detected"]
+[connection signal="area_exited" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_leave_attack_range"]
 [connection signal="area_entered" from="Skin/ApplyAttack" to="Skin/ApplyAttack" method="_on_enemy_entered"]
 [connection signal="animation_finished" from="Skin/AnimationTree" to="Skin/AnimationTree" method="_on_animation_finished"]
