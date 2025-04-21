@@ -46,7 +46,7 @@ func _on_war_result_finished() -> void:
 			current_public_trust = 0
 	economy.set_public_trust(current_public_trust)
 
-	var current_tax: int = economy.get_base_tax() * (current_public_trust / 100)
+	var current_tax: int = economy.get_base_tax() + (current_public_trust - economy.get_base_tax())
 	economy.set_tax_earned(current_tax)
 	economy.set_base_tax(current_tax)
 	MoneyHandler.set_value(MoneyHandler.get_value() + current_tax)
