@@ -17,6 +17,7 @@ var atk_cd: float
 var reckless_rate: float
 var destination:float
 var identity: int
+var is_allowed_to_attack: bool = true
 
 var animation_tree: AnimationTree
 var state_machine
