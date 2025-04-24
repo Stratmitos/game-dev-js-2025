@@ -8,7 +8,16 @@ extends Node2D
 
 @onready var recruit: Panel = ui_node.get_node("RecruitPanel")
 
-# Called when the node enters the scene tree for the first time.
+@onready var total_lose: int = 0
+
+@onready var total_win: int = 0
+
+@onready var death_by_dominate: int = 0
+
+@onready var death_by_coward: int = 0
+
+@onready var death_by_reckless: int = 0
+
 func _ready() -> void:
 	AttributeHandler.strength.set_value(AttributeHandler.player, 10)
 	AttributeHandler.intelligence.set_value(AttributeHandler.player, 10)
@@ -60,27 +69,34 @@ func _on_player_start_war(event) -> void:
 func _on_war_is_over(is_win: bool) -> void:
 	if is_win:
 		$WarResult.win()
+		total_win += 1
 	else:
 		$WarResult.lose()
-
-	_toggle_war_log(false)
+		total_lose += 1
 
 func _on_debuff_dominated_applied(identity: int) -> void:
 	$WarLog.append_debuff_log(identity, 0)
+	death_by_dominate += 1
 
 func _on_debuff_coward_applied(identity: int) -> void:
 	$WarLog.append_debuff_log(identity, 1)
+	death_by_coward += 1
 
 func _on_debuff_reckless_applied(identity: int) -> void:
 	$WarLog.append_debuff_log(identity, 2)
+	death_by_reckless += 1
 
 func _on_war_result_finished() -> void:
+	_toggle_war_log(false)
+
 	var current_public_trust: int = economy.get_public_trust()
 	if $WarResult.is_win:
+		MoneyHandler.set_value(MoneyHandler.get_value() + 25 + randi_range(10, 20) * economy.get_day_passed())
 		current_public_trust += 25 + economy.get_day_passed()
 		if current_public_trust > 100:
 			current_public_trust = 100
 	else:
+		MoneyHandler.set_value(MoneyHandler.get_value() + 15 + randi_range(1, 5) * economy.get_day_passed())
 		current_public_trust -= 10 + economy.get_day_passed()
 		if current_public_trust < 0:
 			current_public_trust = 0
@@ -98,3 +114,12 @@ func _toggle_war_log(value: bool) -> void:
 	$WarLog.clear()
 	$WarLog.visible = value
 	ui_node.visible = not value
+
+func _get_result_game() -> String:
+	return "\nTotal Win: %d\nTotal lose: %d\nTotal day: %d
+			Troops death by dominate effect: %d
+			Troops death by coward effect: %d
+			Troops death by reckless effect: %d" % [
+				total_win, total_lose, economy.get_day_passed(), 
+				death_by_dominate, death_by_coward, death_by_reckless
+			]
