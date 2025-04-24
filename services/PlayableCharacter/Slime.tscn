@@ -260,6 +260,9 @@ tree_root = SubResource("AnimationNodeStateMachine_lpvdb")
 anim_player = NodePath("../AnimationPlayer")
 script = ExtResource("5_oyt7r")
 
+[node name="DebuffTimer" parent="." index="4"]
+wait_time = 0.5
+
 [connection signal="area_entered" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_detected"]
 [connection signal="area_exited" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_leave_attack_range"]
 [connection signal="area_entered" from="Skin/ApplyAttack" to="Skin/ApplyAttack" method="_on_enemy_entered"]

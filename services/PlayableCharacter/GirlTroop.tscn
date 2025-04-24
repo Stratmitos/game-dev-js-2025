@@ -228,7 +228,6 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_14vod")
 hframes = 6
 vframes = 4
-frame = 1
 
 [node name="AttackRange" type="Area2D" parent="Skin" index="0"]
 position = Vector2(4.76837e-07, 32)
@@ -259,6 +258,9 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_lpvdb")
 anim_player = NodePath("../AnimationPlayer")
 script = ExtResource("5_insmp")
+
+[node name="DebuffTimer" parent="." index="4"]
+wait_time = 0.5
 
 [connection signal="area_entered" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_detected"]
 [connection signal="area_exited" from="Skin/AttackRange" to="Skin/AttackRange" method="_on_enemy_leave_attack_range"]
