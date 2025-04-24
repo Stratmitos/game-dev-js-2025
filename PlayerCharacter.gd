@@ -2,6 +2,14 @@ extends Node2D
 
 signal war_is_over(is_win: bool)
 
+signal troop_dominated(identity: int)
+
+signal troop_coward(identity: int)
+
+signal troop_reckless(identity: int)
+
+const default_hp: float = 25.0
+
 var stacked_count: int = 5
 var hp: float = default_hp
 var atk: float

@@ -55,12 +55,24 @@ func _on_player_start_war(event) -> void:
 		MoneyHandler.toggle_allowed_to_spent_money(false)
 		$GirlTroop.move()
 		$Slime.move()
+		_toggle_war_log(true)
 
 func _on_war_is_over(is_win: bool) -> void:
 	if is_win:
 		$WarResult.win()
 	else:
 		$WarResult.lose()
+
+	_toggle_war_log(false)
+
+func _on_debuff_dominated_applied(identity: int) -> void:
+	$WarLog.append_debuff_log(identity, 0)
+
+func _on_debuff_coward_applied(identity: int) -> void:
+	$WarLog.append_debuff_log(identity, 1)
+
+func _on_debuff_reckless_applied(identity: int) -> void:
+	$WarLog.append_debuff_log(identity, 2)
 
 func _on_war_result_finished() -> void:
 	var current_public_trust: int = economy.get_public_trust()
@@ -81,3 +93,8 @@ func _on_war_result_finished() -> void:
 
 	economy.set_day_passed(economy.get_day_passed() + 1)
 	start()
+
+func _toggle_war_log(value: bool) -> void:
+	$WarLog.clear()
+	$WarLog.visible = value
+	ui_node.visible = not value
