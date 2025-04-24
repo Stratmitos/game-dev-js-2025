@@ -40,8 +40,16 @@ func _ready() -> void:
 
 func start() -> void:
 	$WarResult.hide()
-	statistic.refresh_attribute()
-	recruit.refresh_attribute()
+	if economy.get_day_passed() >= 10:
+		$FinalResult.showup(_get_result_game())
+		return
+
+	if $GirlTroop.stacked_count <= 0:
+		if MoneyHandler.get_value() == 0:
+			$FinalResult.showup(_get_result_game())
+			return
+
+		$GirlTroop.on_player_add_troop(10 + economy.get_day_passed())
 
 	$GirlTroop.spawn(1052.0, AttributeHandler.player)
 
@@ -54,7 +62,9 @@ func start() -> void:
 		AttributeHandler.agility.set_value(AttributeHandler.enemy, prev_agl + randi_range(3, 6) * economy.get_day_passed())
 
 	$Slime.spawn(100.0, AttributeHandler.enemy)
-	$Slime.on_player_add_troop(randi_range(5, 10) * economy.get_day_passed())
+	$Slime.on_player_add_troop(randi_range(5, 7) * economy.get_day_passed())
+	statistic.refresh_attribute()
+	recruit.refresh_attribute()
 
 func _on_player_recruit_troop(value: int) -> void:
 	$GirlTroop.on_player_add_troop(value)
