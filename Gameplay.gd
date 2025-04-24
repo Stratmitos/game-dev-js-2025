@@ -6,18 +6,46 @@ extends Node2D
 
 @onready var statistic: Panel = ui_node.get_node("StatisticPanel")
 
+@onready var recruit: Panel = ui_node.get_node("RecruitPanel")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	start()
+	AttributeHandler.strength.set_value(AttributeHandler.player, 10)
+	AttributeHandler.intelligence.set_value(AttributeHandler.player, 10)
+	AttributeHandler.agility.set_value(AttributeHandler.player, 10)
 	$GirlTroop.war_is_over.connect(func(is_win) : _on_war_is_over(is_win))
+	$GirlTroop.troop_dominated.connect(func(identity) : _on_debuff_dominated_applied(identity))
+	$GirlTroop.troop_coward.connect(func(identity) : _on_debuff_coward_applied(identity))
+	$GirlTroop.troop_reckless.connect(func(identity) : _on_debuff_reckless_applied(identity))
+
+	AttributeHandler.strength.set_value(AttributeHandler.enemy, 10)
+	AttributeHandler.intelligence.set_value(AttributeHandler.enemy, 10)
+	AttributeHandler.agility.set_value(AttributeHandler.enemy, 10)
 	$Slime.war_is_over.connect(func(is_win) : _on_war_is_over(is_win))
+	$Slime.troop_dominated.connect(func(identity) : _on_debuff_dominated_applied(identity))
+	$Slime.troop_coward.connect(func(identity) : _on_debuff_coward_applied(identity))
+	$Slime.troop_reckless.connect(func(identity) : _on_debuff_reckless_applied(identity))
+
+	start()
+	statistic.refresh_attribute()
 
 func start() -> void:
-	$GirlTroop.spawn(1052.0, AttributeHandler.player)
-	$Slime.spawn(100.0, AttributeHandler.enemy)
-	economy.set_day_passed(economy.get_day_passed() + 1)
+	$WarResult.hide()
 	statistic.refresh_attribute()
-	print("Start over")
+	recruit.refresh_attribute()
+
+	$GirlTroop.spawn(1052.0, AttributeHandler.player)
+
+	if economy.get_day_passed() > 0:
+		var prev_str: int = AttributeHandler.strength.get_value(AttributeHandler.enemy)
+		var prev_int: int = AttributeHandler.intelligence.get_value(AttributeHandler.enemy)
+		var prev_agl: int = AttributeHandler.agility.get_value(AttributeHandler.enemy)
+		AttributeHandler.strength.set_value(AttributeHandler.enemy, prev_str + randi_range(3, 6) * economy.get_day_passed())
+		AttributeHandler.intelligence.set_value(AttributeHandler.enemy, prev_int + randi_range(3, 6) * economy.get_day_passed())
+		AttributeHandler.agility.set_value(AttributeHandler.enemy, prev_agl + randi_range(3, 6) * economy.get_day_passed())
+
+	$Slime.spawn(100.0, AttributeHandler.enemy)
+	$Slime.on_player_add_troop(randi_range(5, 10) * economy.get_day_passed())
 
 func _on_player_recruit_troop(value: int) -> void:
 	$GirlTroop.on_player_add_troop(value)
@@ -51,5 +79,5 @@ func _on_war_result_finished() -> void:
 	economy.set_base_tax(current_tax)
 	MoneyHandler.set_value(MoneyHandler.get_value() + current_tax)
 
-	$WarResult.hide()
+	economy.set_day_passed(economy.get_day_passed() + 1)
 	start()

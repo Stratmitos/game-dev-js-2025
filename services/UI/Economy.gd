@@ -29,7 +29,7 @@ func get_base_tax() -> int:
 	return base_tax
 
 func set_day_passed(value: int) -> void:
-	base_tax = value
+	day_passed = value
 	$Day.text = "Day: %d" % day_passed
 
 func get_day_passed() -> int:

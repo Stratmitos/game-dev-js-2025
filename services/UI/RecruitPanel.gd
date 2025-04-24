@@ -19,10 +19,18 @@ func _ready() -> void:
 	refresh_recruit_price()
 	refresh_find_other_candidate_price()
 
-func refresh_recruit_price() -> void:
+func refresh_recruit_price(day_passed: int = 0, public_trust: int = 100) -> void:
+	if day_passed > 0:
+		price_recruit += day_passed
+		price_recruit += (100 - public_trust) / 10
+
 	$Price.text = "Price: %d" % price_recruit
 
-func refresh_find_other_candidate_price() -> void:
+func refresh_find_other_candidate_price(day_passed: int = 0, public_trust: int = 100) -> void:
+	if day_passed > 0:
+		price_refresh_recruit += day_passed
+		price_refresh_recruit += (100 - public_trust) / 10
+
 	$Find.text = "Find other candidate (%d)" % price_refresh_recruit
 
 func refresh_attribute() -> void:
