@@ -2,8 +2,8 @@ extends Node2D
 
 signal war_is_over(is_win: bool)
 
-var stacked_count: int = 10
-var hp: float = 100.0
+var stacked_count: int = 5
+var hp: float = default_hp
 var atk: float
 var def: float
 var knockback_rate: float
@@ -59,6 +59,9 @@ func _process(delta) -> void:
 				state_machine.travel("idle")
 
 func spawn(dest: float, id: int) -> void:
+	is_allowed_to_attack = true
+	hp = default_hp
+	$AttackTimer.stop()
 	$DebuffTimer.stop()
 	visible = true
 	set_process(true)
@@ -71,14 +74,15 @@ func spawn(dest: float, id: int) -> void:
 	else:
 		position = Vector2(100, 100)
 
-	AttributeHandler.strength.set_value(id, randi_range(10, 100))
-	AttributeHandler.intelligence.set_value(id, randi_range(10, 100))
-	AttributeHandler.agility.set_value(id, randi_range(10, 100))
 	_init_attribute_point_effect()
 
 	state_machine.travel("idle")
 
 func move() -> void:
+	if $DebuffTimer.is_stopped():
+		$DebuffTimer.start()
+
+	_init_attribute_point_effect()
 	state_machine.travel("movement")
 
 func attack() -> void:
@@ -110,7 +114,7 @@ func on_character_receive_damage(value: float, node_source: Node2D) -> bool:
 				else:
 					_init_attribute_point_effect()
 					$StackedIndicator.text = str(stacked_count)
-					hp = 100.0
+					hp = default_hp
 
 			await get_tree().create_timer(0.1).timeout
 	else:
@@ -147,17 +151,17 @@ func on_player_add_troop(value: int) -> void:
 func _init_attribute_point_effect() -> void:
 	atk = AttributeHandler.strength.get_atk_point(identity) * stacked_count
 	def = AttributeHandler.strength.get_def_point(identity) * stacked_count
-	knockback_rate = AttributeHandler.get_knockback_chance(identity)
-	dominate_rate = AttributeHandler.get_dominate_chance(identity)
+	knockback_rate = AttributeHandler.get_knockback_chance(identity)  * float(stacked_count) / 2
+	dominate_rate = AttributeHandler.get_dominate_chance(identity) * stacked_count
 
-	crit_rate = AttributeHandler.intelligence.get_critical_rate(identity)
-	crit_dmg = AttributeHandler.intelligence.get_critical_damage(identity)
-	coward_rate = AttributeHandler.get_coward_chance(identity)
+	crit_rate = AttributeHandler.intelligence.get_critical_rate(identity) * float(stacked_count) / 2
+	crit_dmg = AttributeHandler.intelligence.get_critical_damage(identity) * float(stacked_count) / 2
+	coward_rate = AttributeHandler.get_coward_chance(identity)  * stacked_count
 
 	mspd = 100 + AttributeHandler.agility.get_movement_speed(identity)
 	atk_cd = 1.7 - AttributeHandler.agility.get_attack_speed(identity)
-	evade_rate = AttributeHandler.get_evade_chance(identity)
-	reckless_rate = AttributeHandler.get_reckless_chance(identity)
+	evade_rate = AttributeHandler.get_evade_chance(identity)  * stacked_count
+	reckless_rate = AttributeHandler.get_reckless_chance(identity)  * stacked_count
 
 func _on_attack_timer_timeout():
 	is_allowed_to_attack = true
