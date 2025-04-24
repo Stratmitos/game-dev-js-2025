@@ -159,11 +159,11 @@ func on_player_add_troop(value: int) -> void:
 func _init_attribute_point_effect() -> void:
 	atk = AttributeHandler.strength.get_atk_point(identity) * stacked_count
 	def = AttributeHandler.strength.get_def_point(identity) * stacked_count
-	knockback_rate = AttributeHandler.get_knockback_chance(identity)  * float(stacked_count) / 2
+	knockback_rate = AttributeHandler.get_knockback_chance(identity)  * float(stacked_count) / 100
 	dominate_rate = AttributeHandler.get_dominate_chance(identity) * stacked_count
 
-	crit_rate = AttributeHandler.intelligence.get_critical_rate(identity) * float(stacked_count) / 2
-	crit_dmg = AttributeHandler.intelligence.get_critical_damage(identity) * float(stacked_count) / 2
+	crit_rate = AttributeHandler.intelligence.get_critical_rate(identity) * float(stacked_count) / 100
+	crit_dmg = AttributeHandler.intelligence.get_critical_damage(identity) * float(stacked_count) / 100
 	coward_rate = AttributeHandler.get_coward_chance(identity)  * stacked_count
 
 	mspd = 100 + AttributeHandler.agility.get_movement_speed(identity)
