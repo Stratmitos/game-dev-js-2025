@@ -40,10 +40,6 @@ func _ready() -> void:
 
 func start() -> void:
 	$WarResult.hide()
-	if economy.get_day_passed() >= 10:
-		$FinalResult.showup(_get_result_game())
-		return
-
 	if $GirlTroop.stacked_count <= 0:
 		if MoneyHandler.get_value() == 0:
 			$FinalResult.showup(_get_result_game())
@@ -65,6 +61,11 @@ func start() -> void:
 	$Slime.on_player_add_troop(randi_range(5, 7) * economy.get_day_passed())
 	statistic.refresh_attribute()
 	recruit.refresh_attribute()
+	
+	if economy.get_day_passed() >= 1:
+		$FinalResult.showup(_get_result_game())
+		$MenuPanel.hide()
+		return
 
 func _on_player_recruit_troop(value: int) -> void:
 	$GirlTroop.on_player_add_troop(value)
