@@ -1,0 +1,105 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcpwpugdsfu81"]
+
+[ext_resource type="Script" path="res://services/UI/MainMenu.gd" id="1_cp7ch"]
+[ext_resource type="Script" path="res://services/UI/GuidePanel.gd" id="1_sfbyg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1t6fa"]
+bg_color = Color(0, 0, 0, 0.490196)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7clkl"]
+bg_color = Color(0, 0, 0, 0.980392)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cp7ch")
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.591049
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 75
+text = "Hooman vs Slime"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Start" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.282986
+anchor_top = 0.592593
+anchor_right = 0.717014
+anchor_bottom = 0.677469
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_1t6fa")
+text = "Start"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="HowToPlay" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.282986
+anchor_top = 0.771605
+anchor_right = 0.717014
+anchor_bottom = 0.856481
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_1t6fa")
+text = "How To Play"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="GuidePanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.174479
+anchor_top = 0.0833333
+anchor_right = 0.825521
+anchor_bottom = 0.854938
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7clkl")
+script = ExtResource("1_sfbyg")
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GuidePanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0333333
+anchor_top = 0.05
+anchor_right = 0.966667
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "lorem ipsum dolor"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="GuidePanel"]
+layout_mode = 0
+anchor_right = 0.272
+anchor_bottom = 0.046
+offset_right = -164.0
+text = " How To Play - Press ESC To Close"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="gui_input" from="Start" to="." method="_on_start_gui_input"]
+[connection signal="gui_input" from="HowToPlay" to="." method="_on_how_to_play_gui_input"]

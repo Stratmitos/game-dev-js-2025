@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="game-jam-js"
-run/main_scene="res://Gameplay.tscn"
+run/main_scene="res://MainMenu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 AttributeHandler="*res://AttributeHandler.gd"
 MoneyHandler="*res://MoneyHandler.gd"
+SceneManager="*res://SceneManager.gd"
 
 [display]
 
