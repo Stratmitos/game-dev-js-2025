@@ -127,7 +127,7 @@ func _toggle_war_log(value: bool) -> void:
 	ui_node.visible = not value
 
 func _get_result_game() -> String:
-	return "\nTotal Win: %d\nTotal lose: %d\nTotal day: %d
+	return "Total Win: %d\nTotal lose: %d\nTotal day: %d
 			Troops death by dominate effect: %d
 			Troops death by coward effect: %d
 			Troops death by reckless effect: %d" % [
