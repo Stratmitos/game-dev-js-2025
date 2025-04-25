@@ -58,7 +58,7 @@ func start() -> void:
 		AttributeHandler.agility.set_value(AttributeHandler.enemy, prev_agl + randi_range(3, 6) * economy.get_day_passed())
 
 	$Slime.spawn(100.0, AttributeHandler.enemy)
-	$Slime.on_player_add_troop(randi_range(5, 7) * economy.get_day_passed())
+	$Slime.on_player_add_troop(randi_range(3, 5) * economy.get_day_passed())
 	statistic.refresh_attribute()
 	recruit.refresh_attribute()
 	
