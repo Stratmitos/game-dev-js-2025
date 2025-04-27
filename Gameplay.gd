@@ -62,7 +62,7 @@ func start() -> void:
 	statistic.refresh_attribute()
 	recruit.refresh_attribute()
 	
-	if economy.get_day_passed() >= 1:
+	if economy.get_day_passed() >= 7:
 		$FinalResult.showup(_get_result_game())
 		$MenuPanel.hide()
 		return
